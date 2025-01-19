@@ -1,4 +1,4 @@
-require('dotenv').config();  // Add this line to use .env file
+require('dotenv').config();
 const express = require('express');
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
@@ -37,7 +37,7 @@ app.post('/webhook', async (req, res) => {
     }
 
     try {
-        const result = await dbx.filesListFolder({path: '/Recordings'});
+        const result = await dbx.filesListFolder({path: '/2024/Zoom Folder'});
         
         for (const entry of result.entries) {
             if (entry['.tag'] === 'file' && entry.path_lower.endsWith('.mp4')) {
@@ -53,8 +53,13 @@ app.post('/webhook', async (req, res) => {
 });
 
 async function processRecording(file) {
-    console.log(`Processing recording: ${file.path_display}`);
+    console.log(`Processing Zoom recording: ${file.path_display}`);
     // Add your custom processing logic here
+    
+    // Example: Log file metadata
+    console.log(`File size: ${file.size} bytes`);
+    console.log(`Last modified: ${file.client_modified}`);
+    console.log(`Path: ${file.path_lower}`);
 }
 
 const PORT = process.env.PORT || 3000;
